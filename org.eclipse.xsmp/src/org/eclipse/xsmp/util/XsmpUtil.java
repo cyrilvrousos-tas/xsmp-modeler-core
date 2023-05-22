@@ -13,7 +13,6 @@ package org.eclipse.xsmp.util;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -541,7 +540,7 @@ public class XsmpUtil
   /**
    * Return the list of all direct dependent packages
    */
-  public Collection<Catalogue> dependentPackages(Catalogue t)
+  public List<Catalogue> dependentPackages(Catalogue t)
   {
     final var dependencies = new HashSet<Catalogue>();
     // collect all referenced Catalogue of interest
@@ -776,14 +775,13 @@ public class XsmpUtil
   public boolean isConst(Parameter o)
   {
     final var id = QualifiedNames.Attributes_Const;
-    return cache.get(Tuples.pair(o, id), o.eResource(), () -> attributeBoolValue(o, id, () -> {
-      return switch (o.getDirection())
-      {
-        case IN -> !(o.getType() instanceof ValueType);
-        case RETURN, OUT, INOUT -> false;
-        default -> false;
-      };
-    }));
+    return cache.get(Tuples.pair(o, id), o.eResource(),
+            () -> attributeBoolValue(o, id, () -> switch (o.getDirection())
+            {
+              case IN -> !(o.getType() instanceof ValueType);
+              case RETURN, OUT, INOUT -> false;
+              default -> false;
+            }));
 
   }
 
@@ -823,7 +821,7 @@ public class XsmpUtil
               .map(Field.class::cast)
               .filter(it -> getVisibility(it) == VisibilityKind.PUBLIC && !isStatic(it))
               .collect(Collectors.toList());
-      if (structure instanceof org.eclipse.xsmp.xcatalogue.Class clazz)
+      if (structure instanceof final org.eclipse.xsmp.xcatalogue.Class clazz)
       {
         final var base = clazz.getBase();
         if (base instanceof Structure && !isBaseOf(base, clazz))
@@ -843,7 +841,7 @@ public class XsmpUtil
     final var fields = Iterables.filter(Iterables.filter(structure.getMember(), Field.class),
             it -> !isStatic(it));
 
-    if (structure instanceof org.eclipse.xsmp.xcatalogue.Class clazz)
+    if (structure instanceof final org.eclipse.xsmp.xcatalogue.Class clazz)
     {
       final var base = clazz.getBase();
       if (base instanceof Structure && !isBaseOf(base, clazz))
@@ -943,7 +941,8 @@ public class XsmpUtil
       case XcataloguePackage.CONSTANT -> ((Constant) parent).getType();
       case XcataloguePackage.ASSOCIATION -> ((Association) parent).getType();
       case XcataloguePackage.PARAMETER -> ((Parameter) parent).getType();
-      case XcataloguePackage.STRING, XcataloguePackage.ARRAY, XcataloguePackage.MULTIPLICITY -> findPrimitiveType(parent, QualifiedNames.Smp_Int64);
+      case XcataloguePackage.STRING, XcataloguePackage.ARRAY, XcataloguePackage.MULTIPLICITY -> findPrimitiveType(
+              parent, QualifiedNames.Smp_Int64);
       case XcataloguePackage.FLOAT ->
       {
         final var type = ((Float) parent).getPrimitiveType();
@@ -954,7 +953,8 @@ public class XsmpUtil
         final var type = ((org.eclipse.xsmp.xcatalogue.Integer) parent).getPrimitiveType();
         yield type != null ? type : findPrimitiveType(parent, QualifiedNames.Smp_Int32);
       }
-      case XcataloguePackage.ENUMERATION_LITERAL -> findPrimitiveType(parent, QualifiedNames.Smp_Int32);
+      case XcataloguePackage.ENUMERATION_LITERAL -> findPrimitiveType(parent,
+              QualifiedNames.Smp_Int32);
       case XcataloguePackage.ENUMERATION -> (Type) parent;
       case XcataloguePackage.ATTRIBUTE ->
       {

@@ -10,6 +10,7 @@
 ******************************************************************************/
 package org.eclipse.xsmp.ide.contentassist;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +53,10 @@ public class AbstractIdeContentProposalProvider extends IdeContentProposalProvid
           IIdeContentProposalAcceptor acceptor)
   {
     final var method = "complete_" + keyword.getValue();
-    invokeMethod(method, acceptor, context);
+    if (methodExists(getClass(), method))
+    {
+      invokeMethod(method, acceptor, context);
+    }
 
     super._createProposals(keyword, context, acceptor);
   }
@@ -85,7 +89,11 @@ public class AbstractIdeContentProposalProvider extends IdeContentProposalProvid
   protected void _createProposals(CrossReference reference, ContentAssistContext context,
           IIdeContentProposalAcceptor acceptor)
   {
-    final var type = currentTypeFinder.findCurrentTypeAfter(reference);
+    var type = currentTypeFinder.findCurrentTypeAfter(reference);
+    if (type == null)
+    {
+      type = context.getCurrentModel().eClass();
+    }
     if (type instanceof EClass)
     {
       final var eReference = GrammarUtil.getReference(reference, (EClass) type);
@@ -97,5 +105,18 @@ public class AbstractIdeContentProposalProvider extends IdeContentProposalProvid
                 filter.getFilter(currentModel, eReference));
       }
     }
+  }
+
+  protected static boolean methodExists(Class< ? > clazz, String methodName)
+  {
+    final var methods = clazz.getDeclaredMethods();
+    for (final Method method : methods)
+    {
+      if (method.getName().equals(methodName))
+      {
+        return true;
+      }
+    }
+    return false;
   }
 }

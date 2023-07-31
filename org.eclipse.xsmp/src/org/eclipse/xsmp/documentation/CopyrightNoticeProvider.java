@@ -55,7 +55,7 @@ public class CopyrightNoticeProvider
     final var text = getCopyrightNotice(resource);
     if (text != null)
     {
-      return prefix + text.replace("\n", "\n" + prefix);
+      return prefix + text.replace(System.lineSeparator(), System.lineSeparator() + prefix);
     }
     return null;
   }
@@ -83,7 +83,7 @@ public class CopyrightNoticeProvider
         {
           final var comment = leafNode.getText();
           return mlMiddlePattern.matcher(mlEndsPattern.matcher(comment).replaceAll(""))
-                  .replaceAll("\n").strip();
+                  .replaceAll(System.lineSeparator()).strip();
         }
         if (grammar.getSL_COMMENTRule().equals(leafNode.getGrammarElement()))
         {

@@ -37,7 +37,7 @@ jobs:
 
       -  name: Create release
          id: create_release
-         uses: actions/create-release@v1
+         uses: cyrilvrousos-tas/create-release@v1
          env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
          with:
@@ -55,7 +55,7 @@ jobs:
             draft: true
             prerelease: false
       -  name: Upload P2 repository
-         uses: actions/upload-release-asset@v1
+         uses: cyrilvrousos-tas/upload-release-asset@v1
          env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
@@ -64,7 +64,7 @@ jobs:
             asset_name: org.eclipse.xsmp.repository-${{ github.ref_name }}.zip
             asset_content_type: application/zip
       -  name: Upload VSCode extension
-         uses: actions/upload-release-asset@v1
+         uses: cyrilvrousos-tas/upload-release-asset@v1
          env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
@@ -73,7 +73,7 @@ jobs:
             asset_name: xsmp-modeler-${{ github.ref_name }}.vsix
             asset_content_type: application/zip
       -  name: Upload SMP Tools CLI
-         uses: actions/upload-release-asset@v1
+         uses: cyrilvrousos-tas/upload-release-asset@v1
          env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
@@ -82,7 +82,7 @@ jobs:
             asset_name: org.eclipse.xsmp.tool.smp.cli-${{ github.ref_name }}.jar
             asset_content_type: application/java-archive
       -  name: Upload XSMP SDK Profile CLI
-         uses: actions/upload-release-asset@v1
+         uses: cyrilvrousos-tas/upload-release-asset@v1
          env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
@@ -91,7 +91,7 @@ jobs:
             asset_name: org.eclipse.xsmp.profile.xsmp_sdk.cli-${{ github.ref_name }}.jar
             asset_content_type: application/java-archive
       -  name: Upload ESA CDK Profile CLI
-         uses: actions/upload-release-asset@v1
+         uses: cyrilvrousos-tas/upload-release-asset@v1
          env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:

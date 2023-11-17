@@ -59,8 +59,8 @@ jobs:
                
                You can find additional Command Line utilities in the Assets.
             files: |
-               ${{ github.workspace }}/org.eclipse.xsmp.repository/target/org.eclipse.xsmp.repository.zip
-               ${{ github.workspace }}/org.eclipse.xsmp.vscode_extension/target/xsmp-modeler.vsix
-               ${{ github.workspace }}/org.eclipse.xsmp.tool.smp.cli/target/org.eclipse.xsmp.tool.smp.cli.jar
-               ${{ github.workspace }}/org.eclipse.xsmp.profile.xsmp_sdk.cli/target/org.eclipse.xsmp.profile.xsmp_sdk.cli.jar
-               ${{ github.workspace }}/org.eclipse.xsmp.profile.esa_cdk.cli/target/org.eclipse.xsmp.profile.esa_cdk.cli.jar
+               ${{ github.workspace }}/org.eclipse.xsmp.repository/target/org.eclipse.xsmp.repository-${{ github.ref_name }}.zip
+               ${{ github.workspace }}/org.eclipse.xsmp.vscode_extension/target/xsmp-modeler-${{ github.ref_name }}.vsix
+               ${{ github.workspace }}/org.eclipse.xsmp.tool.smp.cli/target/org.eclipse.xsmp.tool.smp.cli-${{ github.ref_name }}.jar
+               ${{ github.workspace }}/org.eclipse.xsmp.profile.xsmp_sdk.cli/target/org.eclipse.xsmp.profile.xsmp_sdk.cli-${{ github.ref_name }}.jar
+               ${{ github.workspace }}/org.eclipse.xsmp.profile.esa_cdk.cli/target/org.eclipse.xsmp.profile.esa_cdk.cli-${{ github.ref_name }}.jar

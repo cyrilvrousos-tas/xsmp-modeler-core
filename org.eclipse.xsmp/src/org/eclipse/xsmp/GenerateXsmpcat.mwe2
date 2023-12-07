@@ -57,8 +57,72 @@ Workflow {
 			}
 		}
 		language = StandardLanguage {
+			name = "org.eclipse.xsmp.Xsmpcore"
+			fileExtensions = "xsmpcore"
+			referencedResource = "platform:/resource/${runtimeProjectName}/model/Xcatalogue.genmodel"
+			serializer = {
+				generateStub = false
+			}
+
+			qualifiedNamesProvider = {}
+
+			scopeProvider = {
+				generateStub = false
+			}
+
+			fragment = ui.codemining.CodeMiningFragment {
+				generateStub = false
+			}
+
+			formatter = {
+				generateStub = false
+				generateXtendStub = false
+			}
+
+			junitSupport = {
+				junitVersion = "5"
+			}
+			projectWizard = {
+				pluginProject = false
+				generate = false
+			}
+
+		}
+		language = StandardLanguage {
 			name = "org.eclipse.xsmp.Xsmpcat"
 			fileExtensions = "xsmpcat"
+			referencedResource = "platform:/resource/${runtimeProjectName}/model/Xcatalogue.genmodel"
+			serializer = {
+				generateStub = false
+			}
+
+			qualifiedNamesProvider = {}
+
+			scopeProvider = {
+				generateStub = true
+			}
+
+			fragment = ui.codemining.CodeMiningFragment {
+				generateStub = true
+			}
+
+			formatter = {
+				generateStub = true
+				generateXtendStub = false
+			}
+
+			junitSupport = {
+				junitVersion = "5"
+			}
+			projectWizard = {
+				pluginProject = true
+				generate = true
+			}
+
+		}
+		language = StandardLanguage {
+			name = "org.eclipse.xsmp.Xsmpasb"
+			fileExtensions = "xsmpasb"
 			referencedResource = "platform:/resource/${runtimeProjectName}/model/Xcatalogue.genmodel"
 			serializer = {
 				generateStub = false

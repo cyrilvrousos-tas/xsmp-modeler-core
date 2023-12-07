@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
+import org.eclipse.xsmp.XsmpasbRuntimeModule;
 import org.eclipse.xsmp.XsmpcatRuntimeModule;
 import org.eclipse.xsmp.ui.internal.XsmpActivator;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
@@ -62,16 +63,30 @@ public class AbstractXsmpcatUIPlugin extends EclipseUIPlugin
   {
     try
     {
-      if (!XsmpActivator.ORG_ECLIPSE_XSMP_XSMPCAT.equals(language))
+      if (XsmpActivator.ORG_ECLIPSE_XSMP_XSMPCAT.equals(language))
       {
-        throw new IllegalArgumentException(language);
-      }
 
       final var runtimeModule = getRuntimeModule();
       final var sharedStateModule = getSharedStateModule();
       final var uiModule = getUiModule();
       final var mergedModule = Modules2.mixin(runtimeModule, sharedStateModule, uiModule);
       return Guice.createInjector(mergedModule);
+      
+      }
+      else     if (XsmpActivator.ORG_ECLIPSE_XSMP_XSMPASB.equals(language))
+      {
+
+      final var runtimeModule =  new XsmpasbRuntimeModule();;
+      final var sharedStateModule = getSharedStateModule();
+      final var uiModule = new XsmpasbUiModule(this);
+      final var mergedModule = Modules2.mixin(runtimeModule, sharedStateModule, uiModule);
+      return Guice.createInjector(mergedModule);
+      
+      }
+      else
+      throw new IllegalArgumentException(language);
+    
+
     }
     catch (final Exception e)
     {

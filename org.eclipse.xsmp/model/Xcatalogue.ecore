@@ -356,4 +356,51 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EmptyExpression" eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Assembly" eSuperTypes="#//NamedElementWithMembers"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//Path"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//Path"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Setter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elem" eType="#//Path" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Instance" eSuperTypes="#//NamedElementWithMembers">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//Path"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeReference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Factory" eSuperTypes="#//NamedElementWithMembers">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TypeReference"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Simulator" eSuperTypes="#//NamedElementWithMembers">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="base" upperBound="-1" eType="#//Simulator"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentReference" eSuperTypes="#//TypeReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="catalogue" eType="#//Catalogue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="#//Component"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FactoryReference" eSuperTypes="#//TypeReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="factory" eType="#//Factory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UuidReference" eSuperTypes="#//TypeReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractPath"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StringPath" eSuperTypes="#//AbstractPath">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Path" eSuperTypes="#//AbstractPath">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="#//NamedElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="index" upperBound="-1"
+        eType="#//Expression" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//AbstractPath"
+        containment="true" resolveProxies="false"/>
+  </eClassifiers>
 </ecore:EPackage>

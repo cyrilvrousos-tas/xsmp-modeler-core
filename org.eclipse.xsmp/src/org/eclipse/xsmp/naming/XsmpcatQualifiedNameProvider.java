@@ -72,7 +72,7 @@ public class XsmpcatQualifiedNameProvider extends IQualifiedNameProvider.Abstrac
     {
       return null;
     }
-    return cache.get(Tuples.pair(obj, "fqn"), obj.eResource(),
+    return cache.get(Tuples.pair(obj, "fqn_xsmpcat"), obj.eResource(),
             () -> computeFullyQualifiedName((NamedElement) obj));
   }
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (C) 2020-2022 THALES ALENIA SPACE FRANCE.
+* Copyright (C) 2023-2024 THALES ALENIA SPACE FRANCE.
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License 2.0
@@ -16,12 +16,65 @@ import "http://org.eclipse.xsmp/xcatalogue"
 
 Assembly:
 	'assembly' name=ValidID
-	instances+=Instance*;
+	member+=Namespace*;
+
+Member returns ecore::EObject:
+	Connection | Setter | Instance;
+
+Connection:
+	'connect' output=Path 'to' input=Path;
+
+Setter:
+	'set' elem=Path '=' value=Expression;
 
 Instance:
-	'instance' name=ValidID ':' component=[Component|QualifiedName];
-	
+	'instance' container=Path '+=' type=TypeReference name=ValidID
+	('{'
+	member+=Member*
+	'}')?;
+
+Namespace:
+	'namespace' name=ValidID
+	'{'
+	member+=NamespaceMember*
+	'}';
+
+NamespaceMember returns ecore::EObject:
+	Factory | Simulator | Namespace;
+
+Factory:
+	'factory' name=ValidID 'extends' type=TypeReference
+	('{'
+	member+=Member*
+	'}')?;
+
+Simulator:
+	'simulator' name=ValidID ('extends' base+=[Simulator|QualifiedName] (',' base+=[Simulator|QualifiedName])*)?
+	('{'
+	member+=Member*
+	'}')?;
+
+TypeReference:
+	ComponentReference | FactoryReference | UuidReference;
+
+ComponentReference:
+	catalogue=[Catalogue|ValidID] '::' component=[Component|QualifiedName];
+
+FactoryReference:
+	factory=[Factory|QualifiedName];
+
+UuidReference:
+	uuid=STRING_LITERAL;
+
+AbstractPath:
+	Path | StringPath;
+
+StringPath:
+	name=STRING_LITERAL;
+
+Path:
+	element=[NamedElement|ValidID] ('[' index+=Expression ']')* ('.' next=AbstractPath)?;
+
 @Override
 ValidID:
-	ID | 'assembly' | 'instance'
-;
+	ID | 'assembly' | 'instance';

@@ -59,7 +59,7 @@ import com.google.inject.Singleton;
  * @author Sebastian Zarnekow - Improved support for nested types in connection with imports
  */
 @Singleton
-public class XsmpcatImportedNamespaceScopeProvider
+public class XsmpasbImportedNamespaceScopeProvider
         extends AbstractGlobalScopeDelegatingScopeProvider
 {
 
@@ -130,7 +130,7 @@ public class XsmpcatImportedNamespaceScopeProvider
 
   protected ISelectable getAllDescriptions(final Resource resource)
   {
-    return cache.get("internalGetAllDescriptions", resource,
+    return cache.get("internalGetAllDescriptions_xsmpasb", resource,
             () -> internalGetAllDescriptions(resource));
   }
 
@@ -159,7 +159,7 @@ public class XsmpcatImportedNamespaceScopeProvider
   protected List<ImportNormalizer> getImportedNamespaceResolvers(final EObject context,
           final boolean ignoreCase)
   {
-    return cache.get(Tuples.create(context, ignoreCase, "imports_xsmpcat"), context.eResource(),
+    return cache.get(Tuples.create(context, ignoreCase, "imports_xsmpasb"), context.eResource(),
             () -> internalGetImportedNamespaceResolvers(context, ignoreCase));
   }
 
@@ -260,23 +260,10 @@ public class XsmpcatImportedNamespaceScopeProvider
 
     return result;
   }
-
-  protected IScope getClassScope(IScope parent, IScope globalScope,
-          org.eclipse.xsmp.xcatalogue.Class context, EReference reference)
-  {
-    var result = parent;
-    final var base = (EObject) context.eGet(XcataloguePackage.Literals.CLASS__BASE, false);
-    if (base != null && !base.eIsProxy())
-    {
-      result = getLocalElementsScope(result, globalScope, base, reference);
-    }
-
-    return result;
-  }
-
+  
   IScope getDesignatedInitializerFieldScope(IScope globalScope, Type type)
   {
-    return cache.get(Tuples.create(type, "DesignatedInitializerFieldScope"), type.eResource(),
+    return cache.get(Tuples.create(type, "DesignatedInitializerFieldScope_xsmpasb"), type.eResource(),
             () -> getLocalElementsScope(globalScope, globalScope, type,
                     XcataloguePackage.Literals.DESIGNATED_INITIALIZER__FIELD));
   }
@@ -296,39 +283,6 @@ public class XsmpcatImportedNamespaceScopeProvider
     {
       result = createImportScope(result, explicitImports, globalScopeSelectable,
               reference.getEReferenceType(), ignoreCase);
-    }
-
-    switch (context.eClass().getClassifierID())
-    {
-      case XcataloguePackage.CLASS:
-      case XcataloguePackage.EXCEPTION:
-        result = getClassScope(parent, globalScope, (org.eclipse.xsmp.xcatalogue.Class) context,
-                reference);
-        break;
-
-      case XcataloguePackage.INTERFACE:
-        result = getInterfaceScope(parent, globalScope, (Interface) context, reference);
-        break;
-      case XcataloguePackage.MODEL:
-      case XcataloguePackage.SERVICE:
-        result = getComponentScope(parent, globalScope, (Component) context, reference);
-        break;
-      case XcataloguePackage.DESIGNATED_INITIALIZER:
-      {
-        final var container = context.eContainer();
-        if (container instanceof CollectionLiteral
-                && reference == XcataloguePackage.Literals.DESIGNATED_INITIALIZER__FIELD)
-        {
-          final var type = xsmpUtil.getType((CollectionLiteral) container);
-          if (type instanceof Structure)
-          {
-            result = getDesignatedInitializerFieldScope(globalScope, type);
-          }
-        }
-        break;
-      }
-      default:
-        break;
     }
 
     // local element

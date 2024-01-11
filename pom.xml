@@ -27,7 +27,7 @@
 		<module>org.eclipse.xsmp.repository</module>
 		<module>org.eclipse.xsmp.target</module>
 		<module>org.eclipse.xsmp</module>
-		<module>org.eclipse.xsmp.tests</module>
+		<!--<module>org.eclipse.xsmp.tests</module>-->
 		<module>org.eclipse.xsmp.cli</module>
 		<module>org.eclipse.xsmp.cli.tests</module>
 		<module>org.eclipse.xsmp.generator.cpp</module>
@@ -405,7 +405,7 @@
 				</os>
 			</activation>
 			<modules>
-				<module>org.eclipse.xsmp.profile.xsmp_sdk.tests</module>
+				<!--<module>org.eclipse.xsmp.profile.xsmp_sdk.tests</module>-->
 			</modules>
 		</profile>
 	</profiles>

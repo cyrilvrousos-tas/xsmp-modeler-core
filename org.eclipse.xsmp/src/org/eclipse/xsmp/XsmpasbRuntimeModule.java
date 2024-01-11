@@ -10,9 +10,23 @@
 ******************************************************************************/
 package org.eclipse.xsmp;
 
+import org.eclipse.xsmp.scoping.XsmpasbImportedNamespaceScopeProvider;
+import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class XsmpasbRuntimeModule extends AbstractXsmpasbRuntimeModule {
+  /*
+  @Override
+  public void configureIScopeProviderDelegate(Binder binder)
+  {
+    binder.bind(IScopeProvider.class)
+            .annotatedWith(Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE))
+            .to(XsmpasbImportedNamespaceScopeProvider.class);
+  }*/
 }

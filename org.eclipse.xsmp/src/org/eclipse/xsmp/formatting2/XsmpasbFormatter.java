@@ -17,11 +17,5 @@ import org.eclipse.xtext.formatting2.IFormattableDocument;
 
 public class XsmpasbFormatter extends AbstractJavaFormatter {
 
-	protected void format(Assembly assembly, IFormattableDocument doc) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (Instance instance : assembly.getInstances()) {
-			doc.format(instance);
-		}
-	}
 	
 }
